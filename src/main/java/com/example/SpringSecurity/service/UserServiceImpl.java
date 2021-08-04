@@ -16,15 +16,15 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User findByNameAndSurname(String name, String surname) {
-        User student = null;
+        User user = null;
         try {
-             student = userRepository.findUserByNameAndSurname(name, surname)
+             user = userRepository.findUserByNameAndSurname(name, surname)
                     .orElseThrow(() -> new NotFoundException(String.format("Student %s %s is not exist",name,surname)))
                     .stream().findFirst().get();
         } catch (NotFoundException e) {
             e.printStackTrace();
         }
-        return student;
+        return user;
     }
 
     @Override
@@ -35,5 +35,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        User user =null;
+        try {
+             user = userRepository.findUserByUsername(username).orElseThrow(()->new NotFoundException("User "+username + "is not exist"));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }
