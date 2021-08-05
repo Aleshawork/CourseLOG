@@ -1,6 +1,7 @@
 package com.example.SpringSecurity.entity;
 
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Collection;
 
+@ToString
 @Data
 @Table(name = "users")
 @Entity

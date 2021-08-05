@@ -3,16 +3,21 @@ package com.example.SpringSecurity.service;
 import com.example.SpringSecurity.entity.User;
 import com.example.SpringSecurity.repository.UserRepository;
 import javassist.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
     
     @Autowired
     private UserRepository userRepository;
+
+
     
     @Override
     public User findByNameAndSurname(String name, String surname) {
@@ -43,7 +48,7 @@ public class UserServiceImpl implements UserService {
         try {
              user = userRepository.findUserByUsername(username).orElseThrow(()->new NotFoundException("User "+username + "is not exist"));
         } catch (NotFoundException e) {
-            e.printStackTrace();
+            log.warn(String.format("User %s is not exist ...",username));
         }
         return user;
     }

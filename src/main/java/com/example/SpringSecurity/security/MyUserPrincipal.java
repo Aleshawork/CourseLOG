@@ -7,11 +7,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class MyUserPrincipal implements UserDetails {
-    private final User user;
+    private String username;
+    private String password;
 
-    public MyUserPrincipal(User user) {
-        this.user = user;
+    public MyUserPrincipal(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
+    // todo: add Authorities
+
+
+
+
 
 
     @Override
@@ -21,12 +28,12 @@ public class MyUserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return username;
     }
 
     @Override
@@ -47,5 +54,13 @@ public class MyUserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
