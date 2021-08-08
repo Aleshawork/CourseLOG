@@ -32,10 +32,6 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
-    public User findByGroup(String nyumber) {
-        return null;
-    }
 
     @Override
     public List<User> findAll() {

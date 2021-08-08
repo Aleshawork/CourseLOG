@@ -2,38 +2,35 @@ package com.example.SpringSecurity.security;
 
 import com.example.SpringSecurity.entity.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
-public class MyUserPrincipal implements UserDetails {
-    private String username;
-    private String password;
+public class CustomUserDetails implements UserDetails {
+    private final User user;
 
-    public MyUserPrincipal(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public CustomUserDetails(User user) {
+        this.user = user;
     }
-    // todo: add Authorities
-
-
-
-
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return user.getAuthorities().stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getUsername();
     }
 
     @Override
@@ -54,13 +51,5 @@ public class MyUserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

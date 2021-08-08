@@ -1,5 +1,6 @@
 package com.example.SpringSecurity.config;
 
+import com.example.SpringSecurity.security.AuthenticationProviderService;
 import com.example.SpringSecurity.security.MyUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -10,31 +11,30 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
-
     private final PasswordEncoder passwordEncoder;
-    private final MyUserDetailService myUserDetailService;
+    private final AuthenticationProviderService authProvider;
+
 
     @Autowired
-    public SecurityConfig(PasswordEncoder passwordEncoder, MyUserDetailService myUserDetailService) {
+    public SecurityConfig(PasswordEncoder passwordEncoder, MyUserDetailService myUserDetailService, AuthenticationProviderService authProvider) {
         this.passwordEncoder = passwordEncoder;
-        this.myUserDetailService = myUserDetailService;
+        this.authProvider = authProvider;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/","/help/*").permitAll()
+                .antMatchers("/api/users/**").hasAnyRole("ADMIN")
+                .antMatchers("/api/courses/**").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated()
-                .and()
-                .httpBasic();
+        .and().httpBasic();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailService);
+        auth.authenticationProvider(authProvider);
     }
 }

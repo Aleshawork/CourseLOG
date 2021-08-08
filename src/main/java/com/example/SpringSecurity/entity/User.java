@@ -1,16 +1,20 @@
 package com.example.SpringSecurity.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Collection;
+import java.util.List;
 
 @ToString
 @Data
@@ -30,7 +34,10 @@ public class User {
 
     private String password;
 
-    private String groups;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<Authority> authorities;
 
 
 }
