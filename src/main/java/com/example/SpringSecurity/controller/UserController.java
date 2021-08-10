@@ -3,26 +3,30 @@ package com.example.SpringSecurity.controller;
 import com.example.SpringSecurity.entity.User;
 import com.example.SpringSecurity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("api/users")
 public class UserController {
 
     @Autowired
-    private UserService suserService;
+    private UserService userService;
 
 
 
-    @GetMapping(path = "/getall")
+    @GetMapping(value = "/getall")
     public List<User> getAll(){
-        return  suserService.findAll();
+       return userService.findAll();
     }
 
-    @GetMapping(path = "/{username}")
+    @GetMapping(value = "/{username}")
     public User getByUserName(@PathVariable(value = "username") String username){
-        return suserService.findByUsername(username);
+        return userService.findByUsername(username);
     }
 }

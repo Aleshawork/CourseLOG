@@ -17,7 +17,7 @@ public class CourseController {
     @Autowired
     private CourseServiceImpl courseService;
 
-    @GetMapping(path = "/all")
+    @GetMapping(value= "/all")
     public List<Course> getAll(){
       return  courseService.findAll();
     }

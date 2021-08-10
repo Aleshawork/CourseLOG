@@ -9,4 +9,5 @@ public interface UserService {
     User findByNameAndSurname(String name, String surname);
     List<User> findAll();
     User findByUsername(String username);
+    User save(User user);
 }
